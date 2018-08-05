@@ -1,4 +1,10 @@
 /*
+2018Aug04 mcvogt
+this code being project-ized now in Github for future development by multiple  PCL
+staff
+
+
+
 Apr2012    MCVogt
 Copyright(c) 2012 Purple Crayon Labs - for demonstration purposes.
 
