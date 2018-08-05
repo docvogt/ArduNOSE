@@ -8,17 +8,24 @@ their standard Analog Input ports.  The PCL-NH3 is designed around the e2v brand
 sensitivity from 0.1-100 ppm NH3 in Air.  The sensor conforms to the Arduino recommended wiring strategy and produces a voltage
 within the range of the 0-5 VDC, 0-1023 10-bit analog input signal.  
 
+
+e2v NH3 sensor 
+gas concentration        10-bit digital value        output 0-5VDC signal
+-----------------        --------------------        --------------------
+0.1 - 100 ppm             0 - 1023   (10-bit A/D)      0 - 5.0
+
+
 The sensing element is wired to 3-pin port P1 with (S) Signal, (V) Power supply Voltage, and (G) signal Ground.  
 Three bright colored SMD LEDs are wired to P2 and share the Ground with P1.  The LEDs are RED, GREEN, and BLUE and have
 built-in 290 Ohm resistors so can be driven directly by the Arduino digital pins.  
 
-Executing example code below samples the NH3 sensor and displays its raw unscaled value on the 
+Executing example code below samples the NH3 sensor and trnasmits its raw unscaled value on the 
 serial port.  The code tests the measured sensor value and compares it to programmer-defined thresholds for each LED and then
 lights up each LED in Christmas-tree style depending upon the range and value of the readings, shutting the LED array off in-
-between readings 1 second apart.
+between readings 1 second apart, so the operator can tell the device is functioning by the "heartbeat" of the LED array.  
 
-This code used a Toshiba Tecra M7 running Windows 7 using Serial Port COM4 to communicate with
-an Arduino Uno R3 and an Arduino Mega2560.  
+This code used on a   Toshiba Tecra M7   running   Windows 7   using Serial Port COM4 to communicate with
+both/either an Arduino Uno R3 and/or an Arduino Mega2560 R3.  
 
 For this sample code the PCL-NH3 was wired up as shown below.
 
@@ -36,7 +43,7 @@ Where LED1, LED2, and LED3 are the colored LEDs on the PCL-NH3, and D7, D6, and 
 A0S, A0V, and A0G are the 3 pins associated with Arduino Analog port A0.  
 
 The PCL-NH3 is most easily used with the Arduino Sensor Shield V4, with one 3-pin cable connecting all three of the LEDs and
-a second 3-pin cable connecting the NH3 sensor to Analog A0 (Pins).  
+a second 3-pin cable connecting the NH3 sensor to Analog port A0 (Pins).  
 
 For all of this testing the PCL-NH3 was operated using an Arduino Uno with ONLY the USB cable for power, no external power was
 needed and the code compiled and was uploaded many times without any communication error.  
@@ -44,16 +51,32 @@ needed and the code compiled and was uploaded many times without any communicati
 Assistance with this code and operation of any of the PCL products can be requested at
 
 info@purplecrayonlabs.us
-
 Purple Crayon Labs, MN and IL
 */
+
+/*
+REVISION NOTES IN STACK FASHION NEWEST AT TOP
+
+2018Aug05 mcvogt
+as of 2018Aug the code is being maintained on Github
+
+mistakes and bugs have been identified and left in place w *** to identify them
+
+this code sets the REDLED threshold the lowest, it will go off first, then GREENLED then BLUEELD.  this might
+not be the most intuitive way to use the LEDs...  BLUELED might be set at 0 and used for a 'powered up' indicator
+and then GREEN set for low tolerable levels of NH3 and RED an indicator of concern....
+making these changes will be an exercise in Github.
+
+*/
+
 //========================================================================
 const int REDLEDthreshold = 1; // user set-able value for RED LED to turn on...
-const int GREENLEDthreshold = 7; // user set-able value for RED LED to turn on...
-const int BLUELEDthreshold = 17; // user set-able value for RED LED to turn on...
+const int GREENLEDthreshold = 7; // user set-able value for RED*** LED to turn on...
+const int BLUELEDthreshold = 17; // user set-able value for RED*** LED to turn on...
 //========================================================================
-int sensorPin = A0;   // select the input pin for the NH3 sensor...
-int sensorValue = 0;  // variable to store the value coming from the sensor
+int sensorPin = A0;   // select the input pin for the NH3 sensor... 
+// 'port' A0 on the shield provides +5V and GND on adjacent pins...
+int sensorValue = 0;  // iniialize variable to store the value coming from the sensor
 //========================================================================
 void setup() {                
   // initialise serial port for 115200 baud...
@@ -69,14 +92,15 @@ void loop() {
   // read the value from the sensor:
   sensorValue = analogRead(sensorPin);    
   //------------------------------------------------------------------------
-  Serial.println("current raw NH3 reading is: " + String(sensorValue));
+  Serial.println("current raw NH3 reading is: " + String(sensorValue)); // will be between 0 and 1024 ***
   delay(100);          
   //------------------------------------------------------------------------
   if (sensorValue > REDLEDthreshold ) digitalWrite(7, HIGH);   // set the RED LED on
   delay(100);          
-  if (sensorValue > GREENLEDthreshold ) digitalWrite(6, HIGH);   // set the RED LED on
+  if (sensorValue > GREENLEDthreshold ) digitalWrite(6, HIGH);   // set the RED*** LED on
   delay(100);          
-  if (sensorValue > BLUELEDthreshold ) digitalWrite(5, HIGH);   // set the RED LED on
+  if (sensorValue > BLUELEDthreshold ) digitalWrite(5, HIGH);   // set the RED*** LED on
+   // note - Not nested 'ifs', all, any, or none may be satisfied...
   //------------------------------------------------------------------------
   delay(200);          
   //------------------------------------------------------------------------
