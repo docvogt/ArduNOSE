@@ -2,21 +2,16 @@
 Apr2012    MCVogt
 Copyright(c) 2012 Purple Crayon Labs - for demonstration purposes.
 
-This code demonstrates the two-fold functionality of the PCL-NH3 Ammonia Gas sensor with built-in multi-color
+This code demonstrates the two-fold functionality of the Purple Crayon Labs (PCL)-NH3 Ammonia Gas sensor with built-in multi-color
 LED interface.  The PCL-NH3 sensor is designed for interfacing to the Arduino microcontrollers using one of
 their standard Analog Input ports.  The PCL-NH3 is designed around the e2v brand NH3 sensing element with an ammonia
 sensitivity from 0.1-100 ppm NH3 in Air.  The sensor conforms to the Arduino recommended wiring strategy and produces a voltage
 within the range of the 0-5 VDC, 0-1023 10-bit analog input signal.  
 
-
- a change
- 
- 
 e2v NH3 sensor 
 gas concentration        10-bit digital value        output 0-5VDC signal
 -----------------        --------------------        --------------------
 0.1 - 100 ppm             0 - 1023   (10-bit A/D)      0 - 5.0
-
 
 The sensing element is wired to 3-pin port P1 with (S) Signal, (V) Power supply Voltage, and (G) signal Ground.  
 Three bright colored SMD LEDs are wired to P2 and share the Ground with P1.  The LEDs are RED, GREEN, and BLUE and have
@@ -60,10 +55,14 @@ Purple Crayon Labs, MN and IL
 /*
 REVISION NOTES IN STACK FASHION NEWEST AT TOP
 
+2018Aug06 mcvogt
+minor typo corrections and edits to this main .ino file
+set BLUELED threshold to be '0' so it becomes a power heartbeat, set GREENLED threshold to a low nominal value of 10, and
+the REDLED threshold to a high concern value of 200.   BLUE will always get pulsed, GREEN will get pulsed when NH3 is detected
+but non-problematic, and RED will get pulsed when there is a high enough concentration for concern (1/5 of FSL or 20ppm)
+
 2018Aug05 mcvogt
 as of 2018Aug the code is being maintained on Github
-
-mistakes and bugs have been identified and left in place w *** to identify them
 
 this code sets the REDLED threshold the lowest, it will go off first, then GREENLED then BLUEELD.  this might
 not be the most intuitive way to use the LEDs...  BLUELED might be set at 0 and used for a 'powered up' indicator
@@ -73,9 +72,9 @@ making these changes will be an exercise in Github.
 */
 
 //========================================================================
-const int REDLEDthreshold = 1; // user set-able value for RED LED to turn on...
-const int GREENLEDthreshold = 7; // user set-able value for RED*** LED to turn on...
-const int BLUELEDthreshold = 17; // user set-able value for RED*** LED to turn on...
+const int REDLEDthreshold = 200; // user set-able value for RED LED to turn on...
+const int GREENLEDthreshold = 10; // user set-able value for RED*** LED to turn on...
+const int BLUELEDthreshold = 0; // user set-able value for RED*** LED to turn on...
 //========================================================================
 int sensorPin = A0;   // select the input pin for the NH3 sensor... 
 // 'port' A0 on the shield provides +5V and GND on adjacent pins...
@@ -95,14 +94,14 @@ void loop() {
   // read the value from the sensor:
   sensorValue = analogRead(sensorPin);    
   //------------------------------------------------------------------------
-  Serial.println("current raw NH3 reading is: " + String(sensorValue)); // will be between 0 and 1024 ***
+  Serial.println("current raw NH3 reading is: " + String(sensorValue)); // will be between 0 and 1023
   delay(100);          
   //------------------------------------------------------------------------
   if (sensorValue > REDLEDthreshold ) digitalWrite(7, HIGH);   // set the RED LED on
   delay(100);          
-  if (sensorValue > GREENLEDthreshold ) digitalWrite(6, HIGH);   // set the RED*** LED on
+  if (sensorValue > GREENLEDthreshold ) digitalWrite(6, HIGH);   // set the GREEN LED on
   delay(100);          
-  if (sensorValue > BLUELEDthreshold ) digitalWrite(5, HIGH);   // set the RED*** LED on
+  if (sensorValue >= BLUELEDthreshold ) digitalWrite(5, HIGH);   // set the BLUE LED on
    // note - Not nested 'ifs', all, any, or none may be satisfied...
   //------------------------------------------------------------------------
   delay(200);          
