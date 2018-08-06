@@ -7,5 +7,6 @@ Mark thinks the ArduNOSE project should be both SELF-CONTAINED and INTERNET-SAVV
 The following key components should exist: 
 1. Gas-Sensing Component (GSC); 
 2. Streaming-Data Component (SDC); 
-3. Pattern-Recognition Component (PRC); 
-
+3. Pattern-Recognition Component (PRC);
+4. I/O Component (IOC); 
+5. IoT Component (IOTC); 
