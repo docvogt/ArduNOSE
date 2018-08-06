@@ -9,6 +9,9 @@ sensitivity from 0.1-100 ppm NH3 in Air.  The sensor conforms to the Arduino rec
 within the range of the 0-5 VDC, 0-1023 10-bit analog input signal.  
 
 
+ a change
+ 
+ 
 e2v NH3 sensor 
 gas concentration        10-bit digital value        output 0-5VDC signal
 -----------------        --------------------        --------------------
