@@ -56,6 +56,9 @@ Purple Crayon Labs, MN and IL
 REVISION NOTES IN STACK FASHION NEWEST AT TOP
 
 2018Aug06 mcvogt
+2nd set of edits this evening.. more monir typos.. .and edited the print statement....
+these are changes madeon mikes PC in a New clone/download of the github repo...
+
 minor typo corrections and edits to this main .ino file
 set BLUELED threshold to be '0' so it becomes a power heartbeat, set GREENLED threshold to a low nominal value of 10, and
 the REDLED threshold to a high concern value of 200.   BLUE will always get pulsed, GREEN will get pulsed when NH3 is detected
@@ -73,8 +76,8 @@ making these changes will be an exercise in Github.
 
 //========================================================================
 const int REDLEDthreshold = 200; // user set-able value for RED LED to turn on...
-const int GREENLEDthreshold = 10; // user set-able value for RED*** LED to turn on...
-const int BLUELEDthreshold = 0; // user set-able value for RED*** LED to turn on...
+const int GREENLEDthreshold = 10; // user set-able value for GREEN LED to turn on...
+const int BLUELEDthreshold = 0; // user set-able value for BLUE LED to turn on...
 //========================================================================
 int sensorPin = A0;   // select the input pin for the NH3 sensor... 
 // 'port' A0 on the shield provides +5V and GND on adjacent pins...
@@ -94,7 +97,7 @@ void loop() {
   // read the value from the sensor:
   sensorValue = analogRead(sensorPin);    
   //------------------------------------------------------------------------
-  Serial.println("current raw NH3 reading is: " + String(sensorValue)); // will be between 0 and 1023
+  Serial.println("Mike, current raw NH3 reading is: " + String(sensorValue)); // will be between 0 and 1023
   delay(100);          
   //------------------------------------------------------------------------
   if (sensorValue > REDLEDthreshold ) digitalWrite(7, HIGH);   // set the RED LED on
