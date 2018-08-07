@@ -56,6 +56,11 @@ Purple Crayon Labs, MN and IL
 REVISION NOTES IN STACK FASHION NEWEST AT TOP
 
 2018Aug06 mcvogt
+3rd set of changes...  Installed Arduino extension to VSCode FROM MICROSOFT!!!
+and now ALL of my reported bugs and errors are gone (following the reload of the editor
+) because now VSCode understands my Arduino syntax... next, figger out how to add/connect
+the Arduino compiler....  after we merge this meaningless change...
+
 2nd set of edits this evening.. more monir typos.. .and edited the print statement....
 these are changes madeon mikes PC in a New clone/download of the github repo...
 
