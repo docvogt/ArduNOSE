@@ -54,6 +54,8 @@ Purple Crayon Labs, MN and IL
 
 /*
 REVISION NOTES IN STACK FASHION NEWEST AT TOP
+2018Aug18 mcvogt
+mike added some notes... to this .ino file....  and made some edits to the .rtf file
 
 2018Aug06 mcvogt
 3rd set of changes...  Installed Arduino extension to VSCode FROM MICROSOFT!!!
@@ -90,8 +92,9 @@ int sensorValue = 0;  // iniialize variable to store the value coming from the s
 //========================================================================
 void setup() {                
   // initialise serial port for 115200 baud...
-  Serial.begin(115200);
+  Serial.begin(115200); // this is ideal speed for USB direct connection.... mcvogt
   // initialize the digital pins as an output.
+  // mike is wishing for interface sake he had used more intuitive RED YEL GRE LEDs...
   pinMode(5, OUTPUT); //RED LED... 
   pinMode(6, OUTPUT); //BLUE LED...    
   pinMode(7, OUTPUT); //GREEN LED...
